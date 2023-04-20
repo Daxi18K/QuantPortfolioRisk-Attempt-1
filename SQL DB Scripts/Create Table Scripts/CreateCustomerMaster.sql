@@ -9,12 +9,14 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [Customer].[CustomerMaster](
-	[Customer ID] [numeric](18, 0) NOT NULL,
+	[Record_ID] [numeric](18, 0) NOT NULL,
+	[Customer_ID] [numeric](18, 0) NOT NULL,
 	[Date_of_Birth] [date] NULL,
 	[State] [varchar](5) NULL,
 	[Occupation] [varchar](20) NULL,
 	[Investment_Exp] [varchar](20) NULL,
-	[Date_Updated] [date] NULL
+	[Date_Updated] [datetime] DEFAULT current_timestamp,
+	PRIMARY KEY (Record_ID)
 ) ON [PRIMARY]
 GO
 
