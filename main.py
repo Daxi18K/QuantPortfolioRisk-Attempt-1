@@ -17,13 +17,23 @@ print(date_time)
 
 sys.path.insert(0, r'C:\Users\dashrimali\Quant Risk Management Course\QuantPortfolioRisk-Attempt-1')
 
-cust2 = Registration(112233,123123, date(1992,3,18),'NSW','Consultant',4, date_time)
-cust1 = Registration(123123,123456, date(1992,3,18),'NSW','Consultant',4, date_time)
-print(cust1.customeId)
+cust1 = Registration(recordId=112233,customerId=123123, dob=date(1992,3,18),state='NSW',occupation='Consultant',investmentExperience=4,dateUpdated=date_time)
 session.add(cust1)
-session.commit()
 
-session.rollback()
+cust2 = Registration(recordId=223344,customerId=123123, dob=date(1994,4,18),state='QLD',occupation='Engineer',investmentExperience=1,dateUpdated=date_time)
+session.add(cust2)
+
+cust3 = Registration(recordId=334455,customerId=123123, dob=date(1993,1,22),state='SA',occupation='Financial Advisor',investmentExperience=10,dateUpdated=date_time)
+session.add(cust3)
+
+try:
+    session.commit()
+except:
+    print("Commit Error Encountered")
+    session.rollback()
+
+
+session.close()
 
 #try:
 #    session.commit()

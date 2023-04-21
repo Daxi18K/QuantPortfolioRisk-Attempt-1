@@ -14,4 +14,4 @@ Base = declarative_base()
 
 Session = sessionmaker(bind = conn)
 session = Session()
-
+print("Session Created")

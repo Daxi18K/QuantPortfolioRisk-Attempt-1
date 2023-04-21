@@ -10,11 +10,11 @@ class Registration(Base):
     def __init__(self,
                  recordId: int,
                  customerId: int,
-                 dob: str,
+                 dob: Date,
                  state: str,
                  occupation: str,
                  investmentExperience: int,
-                 dateUpdated
+                 dateUpdated: DateTime
                  ):
         
         assert recordId >= 0.0
@@ -32,10 +32,11 @@ class Registration(Base):
         self.occupation = occupation
         self.investmentExperience = investmentExperience
         self.dateUpdated = dateUpdated
-        
-    __tablename__ = "CustomerMaster"
-    __table_args__ = {'extend_existing': True}
     
+    
+    __tablename__ = "CustomerMaster"
+    
+        
     recordId = Column("Record_ID", Numeric, primary_key=True)
     customeId = Column("Customer_ID", Numeric)
     dob = Column("Date_of_Birth", Date)
@@ -43,6 +44,8 @@ class Registration(Base):
     occupation = Column("Occupation", String)
     investmentExperience = Column("Investment_Exp",String)
     dateUpdated = Column("Date_Updated", DateTime)
+    
+    __table_args__ = {"schema":"Customer","extend_existing": True}
 
         # Get a number from the sequence and retain it for the registration purpose.
         # But this number should only go for new registration.
