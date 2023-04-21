@@ -4,7 +4,6 @@ import sys
 sys.path.insert(0, r'C:\Users\dashrimali\Quant Risk Management Course\QuantPortfolioRisk-Attempt-1')
 
 from Utility.Utility import Base, create_engine, PrimaryKeyConstraint, ForeignKey, Column, String, Integer, CHAR, Numeric, Float, Date, DateTime
-import datetime
 
 class Registration(Base):
         
@@ -15,16 +14,16 @@ class Registration(Base):
                  state: str,
                  occupation: str,
                  investmentExperience: int,
-                 dateUpdated: str
+                 dateUpdated
                  ):
         
-        assert recordId >= 0
-        assert customerId >= 0
+        assert recordId >= 0.0
+        assert customerId >= 0.0
         assert dob != ''
         assert state != ''
         assert occupation != ''
         assert investmentExperience >= 0
-        assert dateUpdated == ''
+        assert dateUpdated != ''
         
         self.recordId = recordId
         self.customeId = customerId
@@ -32,7 +31,7 @@ class Registration(Base):
         self.state = state
         self.occupation = occupation
         self.investmentExperience = investmentExperience
-        self.dateUpdated = ''
+        self.dateUpdated = dateUpdated
         
     __tablename__ = "CustomerMaster"
     __table_args__ = {'extend_existing': True}
