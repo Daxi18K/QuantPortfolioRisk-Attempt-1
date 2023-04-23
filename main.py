@@ -7,37 +7,72 @@
 
 
 
-from Utility.Utility import Base, session
-from Customer_Registration.Customer import Registration
+from Utility.Utility import conn
+from sqlalchemy.orm import sessionmaker
+from Customer_Registration.Customer import Registration, customerFinancials, customerPortfolioPreference, customerStrategyPreference
 import sys
-from datetime import date
+from datetime import datetime
+import pandas as pd
 
-date_time = date.today()
+
+Session = sessionmaker(bind = conn, expire_on_commit=False)
+session = Session()
+print("Session Created")
+
+date_time = datetime.now()
 print(date_time)
 
 sys.path.insert(0, r'C:\Users\dashrimali\Quant Risk Management Course\QuantPortfolioRisk-Attempt-1')
 
+bulkDataset = pd.read_csv(r'C:\Users\dashrimali\Quant Risk Management Course\QuantPortfolioRisk-Attempt-1\Bulk_Input_Data\Bulk_Input_File.csv')
 
-## Creating Sample instances for Registration
-cust1 = Registration(recordId=112233,customerId=123123, dob=date(1992,3,18),state='NSW',occupation='Consultant',investmentExperience=4,dateUpdated=date_time)
-session.add(cust1)
-cust2 = Registration(recordId=223344,customerId=123123, dob=date(1994,4,18),state='QLD',occupation='Engineer',investmentExperience=1,dateUpdated=date_time)
-session.add(cust2)
-cust3 = Registration(recordId=334455,customerId=123123, dob=date(1993,1,22),state='SA',occupation='Financial Advisor',investmentExperience=10,dateUpdated=date_time)
-session.add(cust3)
+#Converting relevant columns to datetime
+bulkDataset['dob'] = pd.to_datetime(bulkDataset['dob'])
 
 
-
-
-
-
-try:
-    session.commit()
-except:
-    print("Commit Error Encountered")
-    session.rollback()
-
-
+for index, row in bulkDataset.iterrows():
+    print(f'Running loop for index - {index}')
+    
+    cust1 = Registration(recordId=row['Record_ID'],customerId=row['Customer_ID'], dob=row['dob'],state=row['State'],occupation=row['Occupation'],investmentExperience=row['Investment_Exp'],dateUpdated=date_time)
+    session.add(cust1)
+    try:
+        session.commit()
+        session.flush()
+    except:
+        print("Commit Error Encountered for Registration")
+        session.rollback()
+        pass
+    
+    fin1 = customerFinancials(recordId=row['Record_ID'],customerId=row['Customer_ID'],expectedFundSize=row['Expected_Fund_Size'],investmentProportion=row['Residual Proportion'],frequencyOfInvestment=row['Freq_of_Investment'],dateUpdated=date_time)
+    session.add(fin1)
+    try:
+        session.commit()
+        session.flush()
+    except:
+        print("Commit Error Encountered for Customer Financials")
+        session.rollback()
+        pass
+    
+    portPref1 = customerPortfolioPreference(recordId=row['Record_ID'],customerId=row['Customer_ID'],portfolioDriver=row['Portfolio_Driver'],riskProfile=row['Risk_Profile'],returnProfile=row['Return_Profile'],dateUpdated=date_time)
+    session.add(portPref1)
+    try:
+        session.commit()
+        session.flush()
+    except:
+        print("Commit Error Encountered for Customer Portfolio Preference")
+        session.rollback()
+        pass
+    
+    custStrgy1 = customerStrategyPreference(recordId=row['Record_ID'],customerId=row['Customer_ID'],strategyId=row['Stretegy_ID'],dateUpdated=date_time)
+    session.add(custStrgy1) 
+    try:
+        session.commit()
+        session.flush()
+    except:
+        print("Commit Error Encountered for Customer Stretegy")
+        session.rollback()
+        pass
+    
 session.close()
 
 #try:

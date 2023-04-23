@@ -58,7 +58,8 @@ class customerFinancials:
                  expectedFundSize: float,
                  investmentProportion: float,
                  frequencyOfInvestment: str,
-                 dateUpdated, DateTime):
+                 dateUpdated: DateTime
+                 ):
         
         assert recordId >= 0.0
         assert customerId >= 0.0
@@ -95,7 +96,8 @@ class customerPortfolioPreference:
                  portfolioDriver: String,
                  riskProfile: String,
                  returnProfile: String,
-                 dateUpdated: DateTime):
+                 dateUpdated: DateTime
+                 ):
         
         assert recordId >= 0.0
         assert customerId >= 0.0
@@ -128,7 +130,8 @@ class customerStrategyPreference:
                  recordId: int,
                  customerId: int,
                  strategyId: int,
-                 dateUpdated: DateTime):
+                 dateUpdated: DateTime
+                 ):
         
         assert recordId >= 0.0
         assert customerId >= 0.0
@@ -157,7 +160,8 @@ class customerStockPreference:
                  customerId: int,
                  etfName: String,
                  portfolioCategory: String,
-                 dateUpdated: DateTime):
+                 dateUpdated: DateTime
+                 ):
         
         assert recordId >= 0.0
         assert customerId >= 0.0

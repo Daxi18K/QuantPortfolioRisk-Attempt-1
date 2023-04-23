@@ -12,6 +12,4 @@ conn = create_engine("mssql+pyodbc:///?odbc_connect={}".format(params))
 
 Base = declarative_base()
 
-Session = sessionmaker(bind = conn)
-session = Session()
-print("Session Created")
+
