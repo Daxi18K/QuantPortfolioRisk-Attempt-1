@@ -1,6 +1,16 @@
-from sqlalchemy import create_engine, PrimaryKeyConstraint, ForeignKey, Column, String, Integer, CHAR, Numeric, Float, Date, DateTime
+from sqlalchemy import (create_engine,
+                        PrimaryKeyConstraint,
+                        ForeignKey,
+                        Column,
+                        String,
+                        Integer,
+                        CHAR,
+                        Numeric,
+                        Float,
+                        Date,
+                        DateTime)
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 import urllib
 
 params = urllib.parse.quote_plus("Driver={SQL Server Native Client 11.0};"

@@ -68,30 +68,31 @@ class Registration(Base):
     
     
     __tablename__ = "FactCustomerDetails"
+    __table_args__ = {"schema":"Customer","extend_existing": True}
     
         
     recordId = Column("Record_ID", Numeric, primary_key=True)
     customeId = Column("Customer_ID", Numeric)
     dob = Column("Date_of_Birth", Date)
     stateId = Column(Integer, ForeignKey('DimStateDetails.State_ID'))
-    stateRelationship = relationship('DimStateDetails', backref='stateRelationship')
+    #stateRelationship = relationship('StateDetails', backref='FactCustomerDetails')
     occupationId = Column(Integer, ForeignKey('DimOccupationDetails.Occupation_ID'))
-    occupation = relationship('DimOccupationDetails', backref = 'occupation_name')
+    #occupationRelationship = relationship('OccupationDetails', backref = 'FactCustomerDetails')
     investmentExperience = Column("Investment_Exp",Integer)
     expectedFundSize = Column("Expected_Fund_Size", Numeric)
     investmentProportion = Column("Residual_Proportion", Numeric)
     frequencyOfInvestmentId = Column(Integer, ForeignKey('DimInvestmentFreqDetails.Frequency_of_Investment_ID'))
-    frequencyOfInvestment = relationship('DimInvestmentFreqDetails', backref='freq_of_investment')
+    #frequencyOfInvestment = relationship('DimInvestmentFreqDetails', backref='freq_of_investment')
     portfolioDriver = Column("Portfolio_Driver", String)
     riskProfileId = Column(Integer, ForeignKey('DimRiskProfileDetails.Risk_Profile_ID'))
-    riskProfile = relationship('DimRiskProfileDetails', backref='risk_profile')
+    #riskProfileRelationship = relationship('RiskProfileDetails', backref='FactCustomerDetails')
     returnProfileId = Column(Integer, ForeignKey('DimReturnProfileDetails.Return_Profile_ID'))
-    returnProfile = relationship('DimReturnProfileDetails', backref='return_profile')
+    #returnProfileRelationship = relationship('ReturnProfileDetails', backref='FactCustomerDetails')
     strategyId = Column(Integer, ForeignKey('DimStrategyDetails.Strategy_ID'))
-    strategy = relationship('DimStrategyDetails', backref='strategy_name')
+    #strategyRelationship = relationship('StrategyDetails', backref='FactCustomerDetails')
     dateUpdated = Column("Date_Updated", DateTime)
     
-    __table_args__ = {"schema":"Customer","extend_existing": True}
+
 
         
 
@@ -99,30 +100,102 @@ class Registration(Base):
 class StateDetails(Base):
         
     def __init__(self,
-                 stateId: int,
+                 Id: int,
                  state: str
                  ):
                 
-        self.stateId = stateId
+        self.Id = Id
         self.state = state
     
     __tablename__ = "DimStateDetails"
     
 
-    stateId = Column(Integer, ForeignKey('DimStateDetails.State_ID'))
+    Id = Column('State_ID',Integer, primary_key=True)
     state = Column("State",String)
-    stateRelationship = relationship('FactCustomerDetails', backref='stateRelationship')
+    stateRelationship = relationship('Registration', backref='DimStateDetails')
     
     __table_args__ = {"schema":"Customer","extend_existing": True}
 
           
+class OccupationDetails(Base):
         
-
+    def __init__(self,
+                 Id: int,
+                 Occupation: str
+                 ):
+                
+        self.Id = Id
+        self.Occupation = Occupation
+    
+    __tablename__ = "DimOccupationDetails"
     
 
+    Id = Column('Occupation_ID',Integer, primary_key=True)
+    Occupation = Column("Occupation",String)
+    occupationRelationship = relationship('Registration', backref='DimOccupationDetails')
+    
+    __table_args__ = {"schema":"Customer","extend_existing": True}       
+
+    
+class ReturnProfileDetails(Base):
+        
+    def __init__(self,
+                 Id: int,
+                 returnProfile: str
+                 ):
+                
+        self.Id = Id
+        self.returnProfile = returnProfile
+    
+    __tablename__ = "DimReturnProfileDetails"
     
 
+    Id = Column('Return_Profile_ID',Integer, primary_key=True)
+    returnProfile = Column("Return_Profile",String)
+    returnProfileRelationship = relationship('Registration', backref='DimReturnProfileDetails')
+    
+    __table_args__ = {"schema":"Customer","extend_existing": True} 
+
+
+class RiskProfileDetails(Base):
         
+    def __init__(self,
+                 Id: int,
+                 riskProfile: str
+                 ):
+                
+        self.Id = Id
+        self.riskProfile = riskProfile
+    
+    __tablename__ = "DimRiskProfileDetails"
+    
+
+    Id = Column('Risk_Profile_ID',Integer, primary_key=True)
+    riskProfile = Column("Risk_Profile",String)
+    riskProfileRelationship = relationship('Registration', backref='DimRiskProfileDetails')
+    
+    __table_args__ = {"schema":"Customer","extend_existing": True} 
+    
+ 
+ 
+class StrategyDetails(Base):
+        
+    def __init__(self,
+                 Id: int,
+                 strategyDescription: str
+                 ):
+                
+        self.Id = Id
+        self.strategyDescription = strategyDescription
+    
+    __tablename__ = "DimStrategyDetails"
+    
+
+    Id = Column('Strategy_ID',Integer, primary_key=True)
+    strategyDescription = Column("Strategy_Description",String)
+    strategyRelationship = relationship('Registration', backref='DimStrategyDetails')
+    
+    __table_args__ = {"schema":"Customer","extend_existing": True}        
         
 ## Ideas for the input required for customer registration
 ## Customer ID (auto-generated)
