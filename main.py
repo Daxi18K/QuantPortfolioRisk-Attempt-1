@@ -35,7 +35,7 @@ for index, row in bulkDataset.iterrows():
     cust1 = Registration(recordId=row['Record_ID'],
                          customerId=row['Customer_ID'],
                          dob=row['dob'],
-                         stateId=row['State_ID'],
+                         State_ID=row['State_ID'],
                          occupationId=row['Occupation_ID'],
                          investmentExperience=row['Investment_Exp'],
                          expectedFundSize=row['Expected_Fund_Size'],
@@ -57,13 +57,7 @@ for index, row in bulkDataset.iterrows():
     
 session.close()
 
-#try:
-#    session.commit()
-#    print('Session Commit Tested')
-#except:
-#    session.rollback()
-#    print('Session rolled Back due to error')
-    
+   
 
 
 
